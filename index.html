@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini Tetris</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app__header">
+      <h1 class="title">Mini Tetris</h1>
+      <p class="subtitle">A small, focused Tetris experience — HTML & CSS upgrade</p>
+    </header>
+
+    <main class="app__content">
+      <section class="game">
+        <div class="game__board">
+          <!-- Canvas where Tetris will be drawn -->
+          <canvas id="game" width="200" height="400" aria-label="Tetris game board"></canvas>
+          <!-- <div class="overlay hint">Use ← → ↑ ↓ or touch controls</div> -->
+        </div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel__group panel__stats">
+          <div class="panel__label">Score</div>
+          <div class="panel__value" id="score">0</div>
+        </div>
+
+        <div class="panel__group panel__next">
+          <div class="panel__label">Next</div>
+          <div class="next-placeholder">(next piece)</div>
+        </div>
+
+        <div class="panel__group panel__controls">
+          <button id="start" class="btn primary">Start</button>
+          <button id="pause" class="btn">Pause</button>
+        </div>
+
+        <div class="panel__group panel__help">
+          <div class="panel__label">Controls</div>
+          <ul class="controls">
+            <li><span class="kbd">←</span> Move</li>
+            <li><span class="kbd">→</span> Move</li>
+            <li><span class="kbd">↑</span> Rotate</li>
+            <li><span class="kbd">↓</span> Drop</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="app__footer">Developed by <a href="https://github.com/meyoramu">IRUTABYOSE Yoramu</a></footer>
+  </div>
+
+  <script src="./scripts/main.js"></script>
+  
+</body>
+</html>
