@@ -136,5 +136,3 @@ Developer tip: we cloned shape arrays when spawning pieces to avoid mutating the
 - Add persistent high score saving using `localStorage`.
 
 ---
-
-If you'd like, I can implement one of the next improvements now — for example, a simple `Next piece` preview or a configurable win condition (clear 40 lines). Which would you prefer?
