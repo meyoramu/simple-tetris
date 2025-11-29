@@ -1,46 +1,98 @@
 <!doctype html>
+<!--
+  index.html - Mini Tetris
+
+  This file is the HTML entry point for the simple Tetris game. It
+  contains the page structure, the canvas where the game is drawn, and
+  the user interface controls (score, next piece placeholder, Start button).
+
+  The comments below explain each element and why it's included, so a
+  beginner can understand how the page and `scripts/main.js` work together.
+-->
 <html lang="en">
 <head>
+  <!-- `meta charset` ensures correct text encoding (UTF-8) in the page -->
   <meta charset="utf-8" />
+  <!--
+    `viewport` makes the layout responsive on mobile devices. Without
+    this the page could look zoomed out or incorrectly scaled on phones.
+  -->
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- The page title shown in the browser tab -->
   <title>Mini Tetris</title>
+
+  <!--
+    Load a web font from Google Fonts. This improves the appearance of
+    text but is optional — the game will work without it.
+  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Link to the local stylesheet that controls layout, colors and spacing -->
   <link rel="stylesheet" href="./styles/style.css">
 </head>
+
 <body>
+  <!-- Top-level app wrapper. Styling classes are defined in `style.css`. -->
   <div class="app">
+    <!-- Header with title and a short description -->
     <header class="app__header">
+      <!-- Main heading for the page; screen readers announce this first -->
       <h1 class="title">Mini Tetris</h1>
-      <p class="subtitle">A small, focused Tetris experience — HTML & CSS upgrade</p>
+      <!-- Short subtitle describing the project -->
+      <!-- <p class="subtitle">A small, focused Tetris experience — HTML &amp; CSS upgrade</p> -->
     </header>
 
+    <!-- Main content area: game board and side panel -->
     <main class="app__content">
       <section class="game">
         <div class="game__board">
-          <!-- Canvas where Tetris will be drawn -->
+          <!--
+            Canvas element where the game's rendering happens.
+            - `id="game"` is used by `scripts/main.js` to find the canvas.
+            - `width` and `height` are in pixels and match `COLS*SIZE` and
+              `ROWS*SIZE` used by the script (10 * 20 = 200, 20 * 20 = 400).
+            - `aria-label` helps screen-reader users understand the purpose
+              of this element.
+          -->
           <canvas id="game" width="200" height="400" aria-label="Tetris game board"></canvas>
+
+          <!-- Optional overlay hint; commented out because the simple UI
+               keeps focus on the canvas and controls. You can enable this
+               to show tips to players. -->
           <!-- <div class="overlay hint">Use ← → ↑ ↓ or touch controls</div> -->
         </div>
       </section>
 
+      <!-- Side panel containing score, next piece placeholder, and controls -->
       <aside class="panel">
+        <!-- Score display group -->
         <div class="panel__group panel__stats">
+          <!-- Label for the stat -->
           <div class="panel__label">Score</div>
+          <!-- Value element that `scripts/main.js` updates using `id="score"` -->
           <div class="panel__value" id="score">0</div>
         </div>
 
-        <div class="panel__group panel__next">
+        <!-- Next piece placeholder: this simple project doesn't render the next
+             piece, but the placeholder shows where you could display it. -->
+        <!-- <div class="panel__group panel__next">
           <div class="panel__label">Next</div>
           <div class="next-placeholder">(next piece)</div>
-        </div>
+        </div> -->
 
+        <!-- Controls area with a Start button. The script hooks the element
+             with `document.getElementById('start')` and binds the `start()`
+             function so the game begins when this button is clicked. -->
         <div class="panel__group panel__controls">
           <button id="start" class="btn primary">Start</button>
+          <!-- A Pause button could be added here in the future -->
           <!-- <button id="pause" class="btn">Pause</button> -->
         </div>
 
+        <!-- Small help section explaining controls. These are the arrow keys
+             that the `scripts/main.js` code listens to for player input. -->
         <div class="panel__group panel__help">
           <div class="panel__label">Controls</div>
           <ul class="controls">
@@ -53,9 +105,12 @@
       </aside>
     </main>
 
-    <footer class="app__footer">Developed by <a href="https://github.com/meyoramu">IRUTABYOSE Yoramu</a></footer>
+    <!-- Footer with author link. It's good practice to include attribution. -->
+    <br><br><footer class="app__footer">Developed by <a href="https://github.com/meyoramu">IRUTABYOSE Yoramu</a></footer>
   </div>
 
+  <!-- Include the game script. This must come after the DOM elements above
+       so the script can find elements like `#game` and `#start` when it runs. -->
   <script src="./scripts/main.js"></script>
   
 </body>
