@@ -31,6 +31,11 @@
 
   <!-- Link to the local stylesheet that controls layout, colors and spacing -->
   <link rel="stylesheet" href="./styles/style.css">
+  
+  <!-- Audio element for theme music -->
+  <audio id="themeMusic" loop preload="auto">
+    <source src="./sounds/game-theme.mp3" type="audio/mpeg">
+  </audio>
 </head>
 
 <body>
@@ -89,6 +94,17 @@
           <button id="start" class="btn primary">Start</button>
           <!-- A Pause button could be added here in the future -->
           <!-- <button id="pause" class="btn">Pause</button> -->
+        </div>
+
+        <!-- Audio settings group for theme music control -->
+        <div class="panel__group panel__audio">
+          <div class="panel__label">Sound</div>
+          <div class="audio-controls">
+            <button id="audioToggle" class="btn audio-btn" title="Toggle sound">
+              <span class="audio-icon">🔊</span>
+            </button>
+            <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="70" aria-label="Volume control">
+          </div>
         </div>
 
         <!-- Small help section explaining controls. These are the arrow keys
