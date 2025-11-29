@@ -31,6 +31,105 @@ const ctx = canvas.getContext("2d");
 // Score element in the DOM — this shows the player's score on the page.
 const scoreEl = document.getElementById("score");
 
+// Audio elements for theme music control
+const themeMusic = document.getElementById("themeMusic");
+const audioToggleBtn = document.getElementById("audioToggle");
+const volumeSlider = document.getElementById("volumeSlider");
+
+// Audio state management
+const audioState = {
+  isMuted: false,
+  volume: 70, // default volume (0-100)
+  
+  // Load saved settings from localStorage
+  load() {
+    const saved = localStorage.getItem('tetrisAudioSettings');
+    if (saved) {
+      const settings = JSON.parse(saved);
+      this.volume = settings.volume || 70;
+      this.isMuted = settings.isMuted || false;
+    }
+    this.applySettings();
+  },
+  
+  // Save current settings to localStorage
+  save() {
+    localStorage.setItem('tetrisAudioSettings', JSON.stringify({
+      volume: this.volume,
+      isMuted: this.isMuted
+    }));
+  },
+  
+  // Apply current audio settings
+  applySettings() {
+    // Set volume (0-1 range for Web Audio API)
+    themeMusic.volume = this.isMuted ? 0 : (this.volume / 100);
+    
+    // Update UI to reflect mute state
+    if (this.isMuted) {
+      audioToggleBtn.classList.add('muted');
+      audioToggleBtn.title = 'Sound is muted';
+    } else {
+      audioToggleBtn.classList.remove('muted');
+      audioToggleBtn.title = 'Toggle sound';
+    }
+    
+    // Update volume slider UI
+    volumeSlider.value = this.volume;
+  },
+  
+  // Toggle mute on/off
+  toggleMute() {
+    this.isMuted = !this.isMuted;
+    this.applySettings();
+    this.save();
+  },
+  
+  // Set volume level (0-100)
+  setVolume(level) {
+    this.volume = Math.max(0, Math.min(100, level));
+    if (this.volume > 0 && this.isMuted) {
+      this.isMuted = false;
+    }
+    this.applySettings();
+    this.save();
+  },
+  
+  // Play theme music
+  play() {
+    if (themeMusic.paused) {
+      themeMusic.play().catch(err => {
+        console.log('Audio playback prevented. User interaction may be required.', err);
+      });
+    }
+  },
+  
+  // Stop theme music
+  stop() {
+    themeMusic.pause();
+    themeMusic.currentTime = 0;
+  }
+};
+
+// Initialize audio system and attach event listeners
+function initAudio() {
+  // Load saved settings
+  audioState.load();
+  
+  // Toggle mute button
+  audioToggleBtn.addEventListener('click', () => {
+    audioState.toggleMute();
+  });
+  
+  // Volume slider
+  volumeSlider.addEventListener('input', (e) => {
+    audioState.setVolume(parseInt(e.target.value));
+  });
+  
+  // Attempt to start playing music (may be blocked by browser until user interaction)
+  audioState.play();
+}
+
 // Tetromino shapes: these are the seven classic Tetris pieces.
 // Each shape is a small 2D array where `1` marks a filled cell and `0` or
 // the absence of a `1` means empty. We use these arrays to render and
@@ -250,6 +349,8 @@ function start(){
   draw();             // draw the initial state
   // If there is already a loop running, clear it to avoid duplicates
   if(loop) clearInterval(loop);
+  // Ensure theme music is playing when game starts
+  audioState.play();
   // Start the game loop: call `tick` every 500 milliseconds (half a second)
   loop = setInterval(tick, 500);
 }
@@ -293,3 +394,6 @@ window.onkeydown = e => {
 
 // Hook the Start button in the DOM: when clicked it runs `start()`
 document.getElementById("start").onclick = start;
+
+// Initialize audio system when DOM is ready
+initAudio();
